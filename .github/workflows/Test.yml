@@ -1,4 +1,4 @@
-name: 云编译PSG1218
+name: Test
 
 on:
   workflow_dispatch:
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: 同步主存储库
-      uses: actions/checkout@master
+      uses: actions/checkout@v4
     - name: 初始环境设置
       run: |
         sudo apt-get update && sudo timedatectl set-timezone "Asia/Shanghai"
@@ -36,7 +36,7 @@ jobs:
         sudo ./build_firmware_ci ${{ github.event.inputs.production }}
         sudo mv -f images/*.trx /opt/images && sudo ./clear_tree
     - name: 上传固件到Artifacts
-      uses: actions/upload-artifact@master
+      uses: actions/upload-artifact@v4
       with:
         name: PSG1218
         path: /opt/images

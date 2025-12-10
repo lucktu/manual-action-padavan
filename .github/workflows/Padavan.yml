@@ -1,19 +1,35 @@
-name: Padavan手动云编译
+name: Padavan
 
 on:
   workflow_dispatch:
     inputs:
       production:
-        description: 设置固件型号：
-        default: "MSG1500-7615"
+        description: 选择固件型号：
         required: false
+        default: "NEWIFI3"
+        type: choice
+        options:
+          - K2P
+          - MSG1500-7615
+          - NEWIFI3
+          - PSG1218
+          - XY-C1
       cloneurl:
         description: 设置源码地址：
-        default: "https://github.com/vb1980/Padavan-KVR.git"
         required: false
+        default: "https://github.com/hanwckf/rt-n56u.git"
+        type: choice
+        options:
+          - https://github.com/hiboyhiboy/rt-n56u.git
+          - https://github.com/hanwckf/rt-n56u.git
+          - https://github.com/padavanonly/rt-n56u.git
+          - https://github.com/immortalwrt/padavan.git
+          - https://github.com/keke1023/Padavan.git
+          - https://github.com/vb1980/Padavan-KVR.git
+          - https://github.com/lmq8267/padavan-KVR.git
       release:
         description: 是否发布到Release？
-        default: 'yes'
+        default: 'no'
         required: false
 
 env:
@@ -25,10 +41,10 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
     - name: 同步主存储库
-      uses: actions/checkout@master
+      uses: actions/checkout@v4
     - name: 初始环境设置
       run: |
         sudo apt-get update
@@ -86,7 +102,7 @@ jobs:
         ls -l
     - name: 上传固件到Artifacts
       if: true
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ env.NAME }}
         path: ${{ env.IMAGES }}
